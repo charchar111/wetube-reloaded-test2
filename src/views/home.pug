@@ -1,0 +1,10 @@
+extends layout.pug
+include mixins/video.pug
+
+block content
+    h2 this is home (⌐■_■)
+
+    ul 
+
+        each video in videos
+            +video(video)

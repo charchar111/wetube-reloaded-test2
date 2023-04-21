@@ -10,10 +10,10 @@
 
 /users/:id => see profile
 /users/logout
-/users/edit
-/users/delete
+/users/:id/edit
+/users/:id/delete
 
 /videos/:id => 비디오마다 id 부여, see video
 /videos/:id/edit
-/videos/upload
+/videos/:id/upload
 /videos/:id/delete
