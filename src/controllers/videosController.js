@@ -1,68 +1,57 @@
-const fakeUser = { name: "tata", age: 23, gender: "male", login: true };
-const videos = [
-  {
-    title: "first",
-    rating: 5,
-    comments: 2,
-    createdAt: "2 minutes ago",
-    views: 1,
-    id: 1,
-  },
-  {
-    title: "second",
-    rating: 8,
-    comments: 5,
-    createdAt: "2 minutes ago",
-    views: 959,
-    id: 2,
-  },
-  {
-    title: "third",
-    rating: 7,
-    comments: 10,
-    createdAt: "2 minutes ago",
-    views: 519,
-    id: 3,
-  },
-];
+import Video from "../models/Video";
 
-export const trending = (req, res) =>
-  res.render("home", { pageTitle: "home", fakeUser, videos });
+const hashtagsExp = ["drama", "horror", "sad", "comedy", "action", "fantasy"];
+
+export const home = async (req, res) => {
+  try {
+    const videos = await Video.find({});
+    console.log(videos[1]);
+    res.render("home", { pageTitle: "home", videos });
+  } catch (error) {
+    console.log("error: ", error);
+    return res.render("serverError");
+  }
+};
+
 export const see = (req, res) => {
   const { id } = req.params;
-  const video = videos[id - 1];
 
-  res.render("watch", { pageTitle: "watch", video });
+  res.render("watch", { pageTitle: "watch", video: [] });
 };
 export const getEdit = (req, res) => {
   const { id } = req.params;
-  const video = videos[id - 1];
+
   res.render("edit", { pageTitle: "edit", video });
 };
 
 export const postEdit = (req, res) => {
   const { id } = req.params;
-  const video = videos[id - 1];
-  video.title = req.body.title;
 
   res.redirect("/");
 };
 export const getUpload = (req, res) => {
-  res.render("upload", { pageTitle: "upload" });
+  res.render("upload", { pageTitle: "upload", hashtagsExp });
 };
 
-export const postUpload = (req, res) => {
-  const newVideoTitle = req.body.title;
-  const newVideo = {
-    title: newVideoTitle,
-    rating: 0,
-    comments: 0,
-    createdAt: "just now",
-    views: 0,
-    id: videos.length + 1,
-  };
+export const postUpload = async (req, res) => {
+  console.log(req.body);
+  const hashtags = req.body.hashtags.map((x) => "#" + x);
+  const moreHashtags = req.body.moreHashtags.split(",").map((x) => "#" + x);
+  hashtags.push(...moreHashtags);
+  console.log(hashtags);
 
-  videos.push(newVideo);
+  const { title, description } = req.body;
+
+  await Video.create({
+    title,
+    description,
+    cratedAt: Date.now(),
+    hashtags,
+    meta: {
+      views: 0,
+      rating: 0,
+    },
+  });
 
   res.redirect("/");
 };

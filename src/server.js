@@ -5,7 +5,6 @@ import userRouter from "./routers/usersRouter";
 import videoRouter from "./routers/videosRouter";
 
 const app = express();
-const port = 3000;
 const logger = morgan("dev");
 
 app.use(logger);
@@ -15,4 +14,5 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", globalRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
-app.listen(port, () => console.log(`connect port: ${port}`));
+
+export default app;

@@ -5,4 +5,15 @@ extends layout.pug
 block content
     form(method="POST" action="/videos/upload")
         input(name="title" placeholder="Title" required type="text")
+        input(name="description" placeholder="Description" required type="text")
+        div 
+            h4 Select Hashtags
+            ul 
+                each hashtag in hashtagsExp 
+                    li 
+                        label(for=`uploadInput-${hashtag}`) #{hashtag}  
+                        input(id=`uploadInput-${hashtag}` type="checkbox" name="hashtags" value=hashtag)
+                
+        input(name="moreHashtags" placeholder="add more hashtags separated by <,> if you want" required type="text")
+        
         input(type="submit", value="upload video") 
