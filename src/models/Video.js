@@ -1,15 +1,33 @@
 import mongoose from "mongoose";
 
 const videoSchema = new mongoose.Schema({
-  title: String,
-  description: String,
-  createdAt: Date,
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
   hashtags: [{ type: String }],
   meta: {
     views: Number,
     rating: Number,
   },
 });
+
+videoSchema.static("formatHashtags", function (hashtags) {
+  const hashtag = hashtags
+    .split(",")
+    .map((word) =>
+      word.trim().startsWith("#") ? word.trim() : `#${word.trim()}`
+    );
+  return hashtag;
+});
+
+// export function formatHashtags(hashtags) {
+//   const hashtag = hashtags
+//     .split(",")
+//     .map((word) =>
+//       word.trim().startsWith("#") ? word.trim() : `#${word.trim()}`
+//     );
+//   return hashtag;
+// }
 
 // videoSchema.methods.speak = function speak() {
 //   console.log("video wowowowow!!!!");

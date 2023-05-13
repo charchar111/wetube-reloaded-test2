@@ -2,5 +2,10 @@ extends layout.pug
 
 block content 
     h1 #{video.title} 
-    h3 #{video.views} #{video.views <=1 ? "view" : "views"}
-    a(href=`${video.id}/edit/`)  Edit Video ༼ つ ◕_◕ ༽つ
+    h3 #{video.description}
+    h3 #{video.hashtags}
+    h3 #{video.meta.views} #{video.meta.views <=1 ? "view" : "views"}
+    div
+        a(href=`${video.id}/edit/`)  Edit Video ༼ つ ◕_◕ ༽つ
+    div
+        a(href=`${video.id}/delete/`) Delete Video (# ´･･)ﾉ               (._.`)
